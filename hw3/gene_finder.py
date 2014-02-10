@@ -268,11 +268,21 @@ def longest_ORF(dna):
     """ Finds the longest ORF on both strands of the specified DNA and returns it
         as a string"""
 
+
     L = find_all_ORFs_both_strands(dna)
     longest = max(L,key=len)
     return longest
     
-def longest_ORF_noncoding(dna, ):
+def longest_ORF_noncoding(dna):
+
+    # YOUR IMPLEMENTATION HERE
+
+def longest_ORF_unit_tests():
+    """ Unit tests for the longest_ORF function """
+
+    # YOUR IMPLEMENTATION HERE
+
+def longest_ORF_noncoding(dna, num_trials):
     """ Computes the maximum length of the longest ORF over num_trials shuffles
         of the specfied DNA sequence
         
