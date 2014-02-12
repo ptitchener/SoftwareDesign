@@ -10,14 +10,23 @@ def get_primes(n):
     return_val = []
     isPrime = True
 
-    for i in range(1,n+1):
-        for j in range(1,i):
-            if i % j == 0:
+    for i in range(2,n+1):
+        print 'main',i
+
+        for j in range(2,i):
+            print 'i=',i,'j=',j
+            print i%j
+            if i%j != 0:
+                isPrime = True
+            elif i % j ==0:
                 isPrime = False
+                break
+                print 'Broken'
         if isPrime:
+            print '??'
             return_val.append(i)
     return return_val
 
 
 if __name__ == '__main__':
-    print get_primes(7)
+    print get_primes(15)
