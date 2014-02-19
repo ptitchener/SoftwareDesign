@@ -13,7 +13,14 @@ from math import cos
 
 def build_random_function(min_depth, max_depth):
     """This function recursively generates a nested list that represents a function.
-    The function is composed of the elements sin_pi, cos_pi,product,and the variables x and y.
+    The function is composed of the elements:
+        sin_pi
+        cos_pi
+        product
+        square
+        squareroot(absolute value)
+        x
+        y
     
     Inputs:
         min depth: minium level of function commposition
@@ -48,17 +55,24 @@ def build_random_function(min_depth, max_depth):
         else:
             raise Exception("Randint is not setup properly")
     else: #if the base case has not been reached, continue to compose functions
-        b = randint(0,2)
+        b = randint(0,4)
         if b==0:
             return ['prod', build_random_function(min_depth-1,max_depth-1),build_random_function(min_depth-1,max_depth-1)]
         elif b==1:
             return ['sin_pi', build_random_function(min_depth-1,max_depth-1)]
         elif b==2:
             return ['cos_pi', build_random_function(min_depth-1,max_depth-1)]
+        elif b==3:
+            return ['square',build_random_function(min_depth-1,max_depth-1)]
+        elif b ==4:
+            return ['sqrt', build_random_function(min_depth-1,max_depth-1)]
+
         else:
             raise Exception("Randint is not setup properly")
 def evaluate_random_function(f, x, y):
-    """ This function will take a nested list "function" (f), and an x and y value to evaluate it at. It outputs the value of the fucntion at the point inputed. 
+    """ This function will take a nested list "function" (f), and an x and y value to evaluate it at. 
+    It returns the value of the fucntion at the point inputed.
+    The function must be in the form of a nested list where the list is of the form ['operator',[argument],[argument]]. This list can be as deep as the recursion limit in python allows.
     """
     if f[0] == 'prod': #evalutate product,cos,sin, etc
         return evaluate_random_function(f[1],x,y)*evaluate_random_function(f[2],x,y)
@@ -70,6 +84,11 @@ def evaluate_random_function(f, x, y):
         return x
     elif f[0] == 'y':
         return y
+    elif f[0] == 'square':
+        return evaluate_random_function(f[1],x,y)**2
+    elif f[0] == 'sqrt':
+        return abs(evaluate_random_function(f[1],x,y))**.5
+
     else:
         raise Exception("There is a problem with the evaluation function")
         
@@ -155,4 +174,4 @@ if __name__ == '__main__':
     print a
     b = evaluate_random_function(a,.2,.5)
     print 'b =', b
-    the_art_is_the_soul(1000)
+    the_art_is_the_soul(350)
