@@ -63,7 +63,7 @@ def build_random_function(min_depth, max_depth):
         elif b==2:
             return ['cos_pi', build_random_function(min_depth-1,max_depth-1)]
         elif b==3:
-            return ['square',build_random_function(min_depth-1,max_depth-1)]
+            return ['quint',build_random_function(min_depth-1,max_depth-1)]
         elif b ==4:
             return ['sqrt', build_random_function(min_depth-1,max_depth-1)]
 
@@ -84,8 +84,8 @@ def evaluate_random_function(f, x, y):
         return x
     elif f[0] == 'y':
         return y
-    elif f[0] == 'square':
-        return evaluate_random_function(f[1],x,y)**2
+    elif f[0] == 'quint':
+        return (5*evaluate_random_function(f[1],x,y)**4 + 5*(evaluate_random_function(f[1],x,y)**3)  - evaluate_random_function(f[1],x,y)**2 + .2)/5
     elif f[0] == 'sqrt':
         return abs(evaluate_random_function(f[1],x,y))**.5
 
@@ -170,7 +170,7 @@ def the_art_is_the_soul(size):
     im.save('random.png')
     im.show('random.png')
 if __name__ == '__main__':
-    a  = build_random_function(3,10)
+    a  = build_random_function(5,5)
     print a
     b = evaluate_random_function(a,.2,.5)
     print 'b =', b
