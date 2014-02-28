@@ -10,7 +10,7 @@ from amino_acids import aa, codons
 import random
 from load import load_seq
 dna = load_seq("./data/X73525.fa")
-
+import re
 
 def collapse(L):
     """ Converts a list of strings to a string by concatenating all elements of the list """
@@ -29,33 +29,20 @@ def coding_strand_to_AA(dna):
         returns: a string containing the sequence of amino acids encoded by the
                  the input DNA fragment
     """
-    
-    # YOUR IMPLEMENTATION HERE
-    
-    a = len(dna)
-    codonNumber = a/3 #figure out the nubmer of codons in the strand to iterate through
-    #print codonNumber
-    cCount = 0 
-    AA = '' #make an empty string that will become the protein strand
-    while cCount < codonNumber:
-        codon = dna[cCount*3:cCount*3+3]  #slices a codon
-        #print codon
-        index = 0
-        while index < len(codons):    #iterates through possible codons
-            A = codons[index]      ##pulls out the list of codons that match an acid from the main list
-            Alen = len(A)
-            index1 = 0
-            while index1 < Alen:  ##checks to see if the codon is in the list that has been pulled out. NOTE: should probably use the in command, but this works as well
-                if A[index1] == codon:
-                    intAcid = aa[index] ##if the codon does match, assign the amino acid to an intermediate variable and break the loop
-                    #print intAcid
-                    break
-                index1 = index1+1
- 
-            index = index+1
-        AA = AA + intAcid #appends the found acid to the string
-        cCount = cCount+1
+    dna_codons = re.findall('...',dna)
+    codon_dict = {}
+    i= 0
+    for i in range(len(aa)):
+        for w in codons[i]:
+            codon_dict[w] = aa[i]
+        i += 1
+    #print codon_dict
+    #j = 0
+    AA =''
+    for w in dna_codons:
+        AA = AA+codon_dict[w]
     return AA
+    
 
 def coding_strand_to_AA_unit_tests():
     """ Unit tests for the coding_strand_to_AA function """
@@ -130,18 +117,15 @@ def rest_of_ORF(dna):
     """
     
     a = len(dna)
-    codonNumber = a/3
-    #print codonNumber
-    cCount = 0
-    while cCount < codonNumber:
-        codon = dna[cCount*3:cCount*3+3]
-        #print codon
-        if codon in ('TGA','TAA','TAG'): #finds end codon and then slices the string
-            endIndex = cCount*3
-            return dna[0:endIndex]          
-        cCount = cCount+1
+    dna_codons = re.findall('...',dna)
+    i = 0
+    for i in range(len(dna_codons)):    
+        if dna_codons[i] in ('TGA','TAA','TAG'): #finds end codon and then slices the string
+            return dna[0:i*3]
+        i +=1
     return dna
-    
+
+    """
 
 def rest_of_ORF_unit_tests():
     """ Unit tests for the rest_of_ORF function """
@@ -345,5 +329,5 @@ if __name__ == '__main__':
 
     a = gene_finder(dna,b)
     print a
-            
-        
+    #print coding_strand_to_AA(dna)
+    #rest_of_ORF_unit_tests()   
