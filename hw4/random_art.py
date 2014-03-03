@@ -45,7 +45,16 @@ def build_random_function(min_depth, max_depth):
             base = False
     else:
         base = False
-    
+    """ I see what you're doing here, and it works, but this it's unnecessarily complicated.
+        
+        if haven't reached min, choose randomly from non terminal functions.
+        if between min and max, choose randomly from all functions.
+        if max, choose from terminal functions.
+
+        That said, I appreciate the spirit of finding a solution that works."""
+
+
+
     if base: #actions to perform if the base case has been reached. 
         a = randint(0,1)
         if a == 0:
@@ -67,6 +76,9 @@ def build_random_function(min_depth, max_depth):
         elif b ==4:
             return ['sqrt', build_random_function(min_depth-1,max_depth-1)]
 
+        """ This can be written more cleanly/more generizably by sorting the functions by # of args and doing one elif for each # of args.
+            Think about what would happen if you decided you wanted to choose from 50 different functions here... """
+
         else:
             raise Exception("Randint is not setup properly")
 def evaluate_random_function(f, x, y):
@@ -77,7 +89,8 @@ def evaluate_random_function(f, x, y):
     if f[0] == 'prod': #evalutate product,cos,sin, etc
         return evaluate_random_function(f[1],x,y)*evaluate_random_function(f[2],x,y)
     elif f[0] == 'sin_pi':
-        return sin(3.14159*evaluate_random_function(f[1],x,y))
+        return sin(3.14159*evaluate_random_function(f[1],x,y)) 
+        # the math library has a built in pi constant so when you import, if you say 'from math import *' then you can just use 'pi' in the code.  More accurate, more readable.
     elif f[0] == 'cos_pi':
          return cos(3.14159*evaluate_random_function(f[1],x,y))
     elif f[0] == 'x':
@@ -115,18 +128,19 @@ def remap_interval(val,input_type, input_interval_start, input_interval_end,outp
         raise Exception("Not a valid output type. Valid input types are f: float, and i: int. Integers will calculate as indicies inclusive of the endpoints and floats will calculate normally")
 
     
-    
     print 'LengthIn',lengthIn,'length out',lengthOut    
     
     
     valInt1 = float(val)-float(input_interval_start)
     valInt2 = valInt1/lengthIn
     valInt3 = valInt2*lengthOut
+    """ You chose to use put these as seperate calculations for a reason.  Choose a variable name that explains the reason.  The 1, 2, 3 is arbitrary. """
     if output_type == 'i':
         return int(valInt3+output_interval_start)
     else:
         return float(valInt3+output_interval_start)
 
+    """ why not just convert them all to floats and do only float math? """
 
 def the_art_is_the_soul(size):
     """Makes a random piece of art. The input size determines the pixel size of the canvas"""
@@ -155,7 +169,9 @@ def the_art_is_the_soul(size):
             
             r = (r+1)*255/2 #remaping the evaluation of the random function to a 1 byte color 
             g = (g+1)*255/2
-            b = (b+1)*255/2            
+            b = (b+1)*255/2  
+
+            """this remapping work should be done in the remap_interval funcion."""         
             
             
             
