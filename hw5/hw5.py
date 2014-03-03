@@ -3,6 +3,8 @@
 Created on Sun Feb 23 18:36:25 2014
 
 @author: paul
+
+By Julian Morris and Paul Titchener
 """
 import pickle
 from pattern.web import *
