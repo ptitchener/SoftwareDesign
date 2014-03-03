@@ -1,0 +1,17 @@
+
+Reflection:
+
+1. For this mini project, our objective was to characterize a text by word frequencies and to compute the similarity of two texts. We used dictionaries for the first objective, and cosine similarity for the second objective. Then we visualized the similarities of books through multidimensional scaling in matlab. There were package issues in python, so we dicided to use the matlab code instead. 
+
+
+2. We used text from project Gutenberg for analysis. We first imported, read, and stripped the text of all the extra text that was not part of the main work. To download text, we used pattern, then split the text into a list and used counter to create a dictionary. Then, for our first objective, we counted the frequency of each word that appeared, and stored it in a dictionary.  We used a dictionary because it seemed like the most efficient way to store large amounts of data of this sort. To compute the similarity of two texts, we determined the words that were in both texts and then created separate lists that had just those words in the same order. We used those two lists to determine the dot product of the two vectors. We then computed the magnitudes of the full vectors (with the words that were not in both books included). Finally, we found the cosine similarity of the books. 
+
+To run this, we created a separate function that iterated through 6 books and determined the similarities of them. To run this code, a ninja can simply run the main function in our script (note: this can take between 2 and 12 minutes depending if you have an ssd or not). To save processing time, we only computed each similarity once, saving that similarity in a dictionary. If we encoutered the same two books again, we simply entered that dictionary value. 
+
+Finally, we created a scaled portrait of the data using multi-dimensional scaling in matlab. We used matlab because the packages needed to run the program in python broke spyder. 
+
+3. We found that books written by the same authors have higher cosine similarity values than books written by different authors. This is to be expected because an author is more likely to use a similar pattern of writing between texts than between texts of different authors. More about this can be seen in the graph also included in the GIT repository. 
+
+4. We were able to find all the information needed to make our functions. We didn't know what the scope of the project should be, which became a problem around the end. We didn't know if we had done enough for the project, or if we needed to do more. Laying out a minimum expectation would have been helpful. For better coordination, we could have assigned what each of us was going to do before the next meeting time instead of just working on our codes individually. Determining the function stubs that we needed and then splitting them up at the start of the project would have also been a better way of doing this. 
+
+Our testing plan largely involved running tests from the __Main__ loop. This worked decently well, but some unit tests could have been useful. We had many small functions, so once we determined that those functions were working, we stopped testing them and moved on to writing and testing other functions.
