@@ -36,7 +36,7 @@ def build_random_function(min_depth, max_depth):
     """
     if max_depth == 0:  #this code determines whether the program has reached the base case or not. 
         base = True
-    
+    """
     elif min_depth<0:
         c = randint(0,2) #there is a 1/3 chance of stopping at each point between the max and the min depth of recusion
         if c == 1:
@@ -45,30 +45,31 @@ def build_random_function(min_depth, max_depth):
             base = False
     else:
         base = False
-    
-    if base: #actions to perform if the base case has been reached. 
+    """
+    if max_depth == 0: #actions to perform if the base case has been reached. 
         a = randint(0,1)
-        if a == 0:
-            return ['x']
-        elif a == 1:
-            return ['y']
-        else:
-            raise Exception("Randint is not setup properly")
-    else: #if the base case has not been reached, continue to compose functions
-        b = randint(0,4)
-        if b==0:
-            return ['prod', build_random_function(min_depth-1,max_depth-1),build_random_function(min_depth-1,max_depth-1)]
-        elif b==1:
-            return ['sin_pi', build_random_function(min_depth-1,max_depth-1)]
-        elif b==2:
-            return ['cos_pi', build_random_function(min_depth-1,max_depth-1)]
-        elif b==3:
-            return ['quint',build_random_function(min_depth-1,max_depth-1)]
-        elif b ==4:
-            return ['sqrt', build_random_function(min_depth-1,max_depth-1)]
+    elif min_depth <= 0: 
+        a = randint(0,6)
+    else:
+        a = randint(2,6)
+        
+    if a == 0:
+        return ['x']
+    elif a == 1:
+        return ['y']
 
-        else:
-            raise Exception("Randint is not setup properly")
+    elif a==2:
+        return ['prod', build_random_function(min_depth-1,max_depth-1),build_random_function(min_depth-1,max_depth-1)]
+    elif a==3:
+        return ['sin_pi', build_random_function(min_depth-1,max_depth-1)]
+    elif a==4:
+        return ['cos_pi', build_random_function(min_depth-1,max_depth-1)]
+    elif a==5:
+        return ['quint',build_random_function(min_depth-1,max_depth-1)]
+    elif a ==6:
+        return ['sqrt', build_random_function(min_depth-1,max_depth-1)]
+
+        
 def evaluate_random_function(f, x, y):
     """ This function will take a nested list "function" (f), and an x and y value to evaluate it at. 
     It returns the value of the fucntion at the point inputed.
