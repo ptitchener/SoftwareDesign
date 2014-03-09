@@ -108,34 +108,7 @@ def remap_interval(val, input_interval_start, input_interval_end, output_interva
         
         This function also takes the input type and the output type. Use "i" for integers and "f" for floats. This makes it such it can remap a smooth function to list indicies or the like. 
     """
-    """
-    if input_type == 'f':
-        lengthIn = input_interval_end - input_interval_start
-    elif input_type == 'i':
-        lengthIn = input_interval_end - input_interval_start+1
-    else:
-        raise Exception("Not a valid input type. Valid input types are f: float, and i: int. Integers will calculate as indicies inclusive of the endpoints and floats will calculate normally")
-
-    if output_type == 'f':
-        lengthOut = output_interval_end - output_interval_start
-    elif output_type == 'i':
-        lengthOut = output_interval_end - output_interval_start +1
-    else:
-        raise Exception("Not a valid output type. Valid input types are f: float, and i: int. Integers will calculate as indicies inclusive of the endpoints and floats will calculate normally")
-
-    
-    
-    print 'LengthIn',lengthIn,'length out',lengthOut    
-    
-    
-    valInt1 = float(val)-float(input_interval_start)
-    valInt2 = valInt1/lengthIn
-    valInt3 = valInt2*lengthOut
-    if output_type == 'i':
-        return int(valInt3+output_interval_start)
-    else:
-        return float(valInt3+output_interval_start)
-    """
+ 
     val = float(val)
     input_interval_start = float(input_interval_start)
     input_interval_end = float(input_interval_end)
