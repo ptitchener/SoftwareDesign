@@ -10,6 +10,7 @@ from random import randint
 import Image
 from math import sin
 from math import cos
+from math import pi
 
 def build_random_function(min_depth, max_depth):
     """This function recursively generates a nested list that represents a function.
@@ -84,9 +85,9 @@ def evaluate_random_function(f, x, y):
     if f[0] == 'prod': #evalutate product,cos,sin, etc
         return evaluate_random_function(f[1],x,y)*evaluate_random_function(f[2],x,y)
     elif f[0] == 'sin_pi':
-        return sin(3.14159*evaluate_random_function(f[1],x,y))
+        return sin(pi*evaluate_random_function(f[1],x,y))
     elif f[0] == 'cos_pi':
-         return cos(3.14159*evaluate_random_function(f[1],x,y))
+         return cos(pi*evaluate_random_function(f[1],x,y))
     elif f[0] == 'x':
         return x
     elif f[0] == 'y':
@@ -100,12 +101,13 @@ def evaluate_random_function(f, x, y):
         raise Exception("There is a problem with the evaluation function")
         
 
-def remap_interval(val,input_type, input_interval_start, input_interval_end,output_type, output_interval_start, output_interval_end):
+def remap_interval(val, input_interval_start, input_interval_end, output_interval_start, output_interval_end):
     """ Maps the input value that is in the interval [input_interval_start, input_interval_end]
         to the output interval [output_interval_start, output_interval_end].  The mapping
         is an affine one (i.e. output = input*c + b).
         
         This function also takes the input type and the output type. Use "i" for integers and "f" for floats. This makes it such it can remap a smooth function to list indicies or the like. 
+    """
     """
     if input_type == 'f':
         lengthIn = input_interval_end - input_interval_start
@@ -133,6 +135,20 @@ def remap_interval(val,input_type, input_interval_start, input_interval_end,outp
         return int(valInt3+output_interval_start)
     else:
         return float(valInt3+output_interval_start)
+    """
+    val = float(val)
+    input_interval_start = float(input_interval_start)
+    input_interval_end = float(input_interval_end)
+    output_interval_start = float(output_interval_start)
+    output_interval_end = float(output_interval_end)
+
+
+    input_range = input_interval_end-input_interval_start
+    output_range = output_interval_end - output_interval_start
+    ratio = output_range/input_range
+
+    return (val - input_interval_start)*ratio + output_interval_start
+
 
 
 def the_art_is_the_soul(size):
@@ -153,16 +169,16 @@ def the_art_is_the_soul(size):
             #print 'i = ',i,'j=',j
             i_f = float(i)
             j_f = float(j)
-            x = (i_f-size/2)/(size/2) #remaps the interval This was easier than using the remap interval function
-            y = (j_f-size/2)/(size/2)
+            x = remap_interval(i_f, 0, size, -1, 1)#(i_f-size/2)/(size/2) #remaps the interval This was easier than using the remap interval function
+            y = remap_interval(j_f, 0, size, -1, 1)
             #print 'x=',x,'y=',y
             r = evaluate_random_function(redFunc, x, y) #evaluating random functions
             g = evaluate_random_function(greenFunc, x, y)
             b = evaluate_random_function(blueFunc, x, y)
             
-            r = (r+1)*255/2 #remaping the evaluation of the random function to a 1 byte color 
-            g = (g+1)*255/2
-            b = (b+1)*255/2            
+            r = remap_interval(r,-1,1,0,255)#remaping the evaluation of the random function to a 1 byte color 
+            g = remap_interval(g,-1,1,0,255)
+            b = remap_interval(b,-1,1,0,255)
             
             
             
