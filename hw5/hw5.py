@@ -52,6 +52,7 @@ def strip_extra(book):
             end = a.index('*** END OF')
         except ValueError:
             end = a.index('***END OF')
+    # might have been better to use a.find(), which returns -1 instead of raising ValueError
     
     ind1 = a.index('***')
     start= a.index('***',ind1)
@@ -60,9 +61,11 @@ def strip_extra(book):
 def delete_extra(book):
     """ Srips additional UTF-8 formating from the downloaded book and returns it as a list of words"""
     b = strip_extra(book)
-    b.lower
+    b.lower         # this line does nothing - try running it on the terminal
     a = b.split()
     i = 0
+    # this loop merits some documentation. It seems like you're deleting unwanted characters from the text.
+    # I would personally have used replace(<char>, '') to delete them, but this works fine
     for i in range(len(a)):
         if '\xe2\x80\x94' in a[i]:
             a[i] = a[i].translate(None,'\xe2\x80\x94')
@@ -84,17 +87,22 @@ def makesdic(book):
     """
     
     #text = "hello there hi there"
-    text= delete_extra(book)
+    text= delete_extra(book)        # I thought it took in a list of strings?
     #text = ''.join(str(e) for e in text_list)
     dic = dict()
     dic = {'_all_':0}
     dic_100 = {}
-    return collections.Counter(text)
+    return collections.Counter(text)    # excellent use of counter!
 
+'''
+Several things about the above function:
+1. It takes in a string and turns it into a list of strings (different from what the docstring describes)
+2. I have no clue what you're doing with the three lines above the return line. Can you explain it?
+'''
 
-def word_freq(book):
+def word_freq(book):        # your input is a string, not a dictionary of word counts
     """ Changes the word count into a frequency count. Input is a dicionary of word counts. Output is a dictionary of word frequencies"""
-    count = makesdic(book)
+    count = makesdic(book)  # this is where your dictionary is
     a = sum(count.values())
     for w in count:
         count[w] = float(count[w])/(a)
@@ -106,6 +114,8 @@ def compare(book1,book2):
     freq1 = word_freq(book1)
     freq2 = word_freq(book2)
     
+    # you could have used a set to remove duplicates and get all words in both books:
+    # list(Set(freq1.keys() + freq2.keys()))
     c = dict(freq1.items() + freq2.items()) #findinf the words that appear in both books 
     all_words = map(list,zip(c)) ##mapping the dictionary to a list
 
@@ -137,6 +147,7 @@ def magnitude(L):
         raise Exception("L must be a list")
     a = 0
     
+    # is this the same way you calculate the magnitude of a vector? (aka Pythagorean Theorem across multiple dimensions)
     for w in L:
         a = a + w**2
     return a**.5
@@ -181,7 +192,7 @@ def compare_all():
             else:
                 try:
                     compare_int = compare_once[x,w] ## if the two books have already been compared, that value is returned
-                except:
+                except: # It's always a good habit to specify the exceptions you're catching. In this case, KeyError
                     compare(w,x) ##finding the similarity
                     compare_int = compare(w,x)
                     compare_once[w,x] = compare_int ##adding it to the intermediate list
